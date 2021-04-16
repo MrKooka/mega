@@ -1,0 +1,140 @@
+{% extends "settings/base.html" %}
+
+
+
+{% block content %}
+{%set graph = 'graph'%}
+<a href="{{ url_for('dashroute.test') }}">asdasdasd</a>
+<div class="container mt-4">
+  <div class="row justify-content-center align-items-center col-11">
+    <form action="{{ url_for('dashroute.app1_template') }}" method="POST">
+      {{ form.csrf_token }}
+
+      <div class="mb-3">
+        {{ form.url.label(class_='form-label',**{'for':'validationEmail'}) }}
+        {%if not form.url.errors%}
+           {{ form.url(class_='form-control',**{'type':'text','id':'validationEmail'}) }}
+        {% else %}
+          {{ form.url(class_='form-control is-invalid',**{'type':'text','id':'validationEmail'}) }}
+          <div id="validationEmailFeedback" class="invalid-feedback">
+                Некорректная ссылка на видео youtube
+            </div>
+          {%endif%} 
+      </div>
+      <div class="mb-3">
+        {{ form.maxResults.label(class_='form-label',**{'for':'validationEmail'}) }}
+        {%if not form.maxResults.errors%}
+           {{ form.maxResults(class_='form-control',**{'type':'text','id':'validationEmail'}) }}
+        {% else %}
+          {{ form.maxResults(class_='form-control is-invalid',**{'type':'text','id':'validationEmail'}) }}
+          <div id="validationEmailFeedback" class="invalid-feedback">
+                Количество комментариев должно быть целым числом 
+            </div>
+          {%endif%} 
+      </div>
+     {{form.submit(class_='btn btn-primary mt-2')}}
+        
+      <div class="form-check mt-2">
+        <input class="form-check-input" type="checkbox"name='replice'  value="replice" id="IncludeComments">
+        <label class="form-check-label" for="IncludeComments">
+          Включить ответы на комментарии
+        </label>
+      </div>
+    </form>
+</div>
+</div>
+
+
+
+<div class="container mt-4">
+
+  <a class="btn btn-primary " href="{{ url_for('dashroute.select_type_request',p='search_by_word') }}"
+     role="button">Поиск по слову</a>
+
+  <a class="btn btn-primary " href="{{ url_for('dashroute.select_type_request',p='graph') }}"
+     role="button">График</a>
+
+  <a class="btn btn-primary " href="{{ url_for('dashroute.select_type_request',p='csv') }}"
+     role="button">Экспорт</a>
+
+  {%if type_input == 'graph'%}
+  <div class="alert alert-primary mt-2" role="alert">{{text}}</div>
+  {%endif%}
+
+  {%if type_input == 'csv'%}
+    <p class="mt-2"><a class="btn btn-primary " href="{{ url_for('dashroute.download_csv') }}"
+     role="button">CSV</a>
+     <a class="btn btn-primary " href="{{ url_for('dashroute.download_json') }}"
+     role="button">JSON</a></p>
+  {%endif%}
+  {%if alert%}
+    <p>{{alert}}</p>
+  {%endif%}
+</div>
+
+<form  method="GET">
+
+  <div class="container">
+    <div class="row justify-content-center align-items-center mt-3 col-11">
+      <div class="form-group "> 
+
+        {%if not type_input%}
+          <label class="text-dark mr-3">Шаблон</label>
+          <input class="form-control " type="text" name="q" value="{{ request.args.get('q', '') }}"> 
+        {%endif%}
+      </div>
+    </div>
+  </div>
+{%if type_input == 'graph'%}
+<div class="container">
+  <div class="embed-responsive embed-responsive-21by9">
+    <iframe
+      style="border: 0; width:100%; height: 550px; overflow: auto;"
+      noresize='noresize' 
+      style='' 
+      src={{ dash_url }}
+      frameborder="0"
+      
+      >
+
+    </iframe>
+  </div>
+</div>
+{%endif%}
+</form>
+<div class="container mt-2">
+  <a class="btn btn-primary float-lg-left " href="{{ url_for('dashroute.reset_comments') }}" role="button">Сбросить поиск</a>
+  <p>Количество комментариев, отображаемых на Youtube, включает в себя количество ответов на коментарии</p>
+
+  {%if total%}
+    <h5 class="float-lg-right"> Найдено результатов:{{total}}</h5>
+  {%endif%}
+
+</div>
+<div class="container-fluid ">
+  <div class="container col-8">    
+    <div class="row text-center ">
+    {%for comment in comments%}
+        <div class="card mb-3 ml-2 mt-5 bg-light text-dark " style="width: 500px">
+          <div class="col">
+            <div class="card-body" >
+              <img  src={{comment.authorProfileImageUrl}} alt="Card image cap">
+              <a href={{ comment.authorChannelUrl }}><h5 class="card-title">{{comment.authorDisplayName}}</h5></a>
+              <p class="card-text">{{comment.textDisplay}}</p>
+              <p class="card-text">TДата: {{comment.datePublish}}</p>
+              <p class="card-text">Лайки: {{comment.likeCount}}</p>
+
+            </div>
+          </div>
+        </div>
+      {%endfor%}
+    </div> 
+  </div>
+</div>
+</div>
+
+
+
+  
+{% endblock content %}
+

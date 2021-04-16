@@ -1,0 +1,34 @@
+{%extends 'settings/base.html'%}
+
+{%block content%}
+<div class="container-fluid">
+  <div class="row text-center">
+    {%include 'rueng/nav.html'%}
+    <div class="col-6 mx-auto mt-4 ">
+      <div class="mx-auto card text-dark bg-muted mt-5 " style="max-width: 30rem;">
+        <h3 class="card-header ">{{ w.eng }}</h3>
+        <div class="card-body">
+          <p>{{w.context}}</p>
+          <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button text-dark bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Показать слово
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <h3>{{w.ru}}</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a class="btn btn-primary" href="{{ url_for('rueng.random') }}" role="button">Next</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{%endblock%}

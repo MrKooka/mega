@@ -1,0 +1,66 @@
+<div class="card-group" style="width:36rem">
+
+
+</div>
+
+<script type="text/python">
+from browser import *
+import browser
+import inspect
+d1_names = {'trans':'Транспорт','job':'Работа','pb':'Личные вещи'}
+card_transport = ['Автомобили','Мотоциклы и мототехника','Водный транспорт','Грузовики и спецтехника','Мотоциклы и мототехника']
+card_job = ['Вакансии','Резюме']
+card_pb = ['Обувь','Куртки','Шапки','Штаны','Майки']
+
+
+
+
+d1 = document.select('.card-group')[0]
+d2 = html.DIV(html.DIV('%s'%d1_names[i],Class='w3-bar-item w3-button %s'%i) for i in d1_names)
+d2.classList.add('card')
+d2.style = {'width':'18rem','max-width':'18rem'}
+d1 <= d2
+
+
+@bind(d2.children[0],'click')
+def choice_item(event):
+	items = card_transport
+	card2 = html.DIV(html.DIV('%s'%i,Class='w3-bar-item w3-button') for i in items)
+	card2.classList.add('card')
+	if len(d1.children)>2:
+		del_card2 = d1.children[2]
+		print('Список карточек больше  1 ')
+		d1.removeChild(del_card2)
+		d1.append(card2)
+	else:
+		print('Список карточек больше меньше 1 ')
+		d1.append(card2)
+
+@bind(d2.children[1],'click')
+def choice_item(event):
+	items = card_job
+	card2 = html.DIV(html.DIV('%s'%i,Class='w3-bar-item w3-button') for i in items)
+	card2.classList.add('card')
+	if len(d1.children)>2:
+		del_card2 = d1.children[2]
+		print('card2  in d1.ch')
+		d1.removeChild(del_card2)
+		d1.append(card2)
+	else:
+		print('card2  not in d1.ch')
+		d1.append(card2)
+
+@bind(d2.children[2],'click')
+def choice_item(event):
+	items = card_pb
+	card2 = html.DIV(html.DIV('%s'%i,Class='w3-bar-item w3-button') for i in items)
+	card2.classList.add('card')
+	if len(d1.children)>2:
+		del_card2 = d1.children[2]
+		print('card2  in d1.ch')
+		d1.removeChild(del_card2)
+		d1.append(card2)
+	else:
+		print('card2  not in d1.ch')
+		d1.append(card2)
+</script>
