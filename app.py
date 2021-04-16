@@ -13,6 +13,8 @@ from dashboards.dashapp2 import Dash_app2
 # from Dashboards import DashApp1
 class Config:
 	SECRET_KEY = 'asdwer43f5t65yuhrgefw'
+	# server 
+# 	SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://kooka2:1@localhost:3306/test2'
 	SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:1@localhost:27017/gshop'
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
 	# UPLOAD_FOLDER = '/media/alex/Data1/two/YAPI3/app/DashRoutes/csv_files'
