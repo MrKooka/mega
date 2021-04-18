@@ -19,6 +19,7 @@ db = app.get_db()
 def add():
 	form = Add_word()
 	from settings.models import RuEng,User
+
 	id = current_user.id
 
 	allw = RuEng.query.filter(RuEng.users.any(id=id)).all()
@@ -34,7 +35,6 @@ def add():
 		current_db_sessions.commit()
 
 		# w.users.append(user)
-		print(w)
 		return redirect(url_for('rueng.add'))
 	return render_template('rueng/add.html',current_user=current_user,allw=allw,form=form)
 
@@ -46,7 +46,6 @@ def all():
 	from settings.models import RuEng
 	allw = RuEng.query.filter(RuEng.users.any(id=id)).all()
 	id = current_user.id
-	print(allw)
 
 	return render_template('rueng/all.html',current_user=current_user,allw=allw,form=form)
 
@@ -77,9 +76,24 @@ def del_word(word_id):
 def random():
 	from settings.models import RuEng
 	user_id = current_user.id
-	allw = RuEng.query.filter(RuEng.users.any(id=user_id)).all()
-	w = choice(allw)
-	return render_template('rueng/random.html',w=w)
+	# allw = RuEng.query.filter(RuEng.users.any(id=user_id)).all()
+	# if len(allw) > 0:
+	# 	w = allw.pop(allw.index(choice(allw)))
+	# 	print(w)
+		# w = choice(allw)
+	return render_template('rueng/random.html',err=False,choice=choice,RuEng=RuEng,user_id=user_id)
+	# else:
+		# return render_template('rueng/random.html',err=True)
+
+@rueng.route('/write/next/<allw>')
+def next_word(allw):
+	print(type(allw))
+	if len(allw) > 0:
+		allw = allw.pop(allw.index(choice(allw)))
+		# w = choice(allw)
+		return render_template('rueng/write.html',w=w,err=False)
+	else:
+		return render_template('rueng/write.html',err=True)
 
 @rueng.route('/write')
 def write():
@@ -87,19 +101,24 @@ def write():
 	from settings.models import RuEng
 	user_id = current_user.id
 	allw = RuEng.query.filter(RuEng.users.any(id=user_id)).all()
-	w = choice(allw)
-	return render_template('rueng/write.html',w=w)
+	return render_template('rueng/write.html',w=allw,err=False)
+
+
 
 @rueng.route('/write/<eng>',methods=['GET','POST'])
 def check_word(eng):
 	from settings.models import RuEng
 	w = RuEng.query.filter_by(eng=eng).first()
-	print(w)
-
 	if request.method == 'POST':
+		print(request.form['ru'])
+		print(w.ru)
+		print(request.form['ru'] == w.ru)
+		print(type(request.form['ru']))
+		print(type(w.ru))
+		print('q'=='q')
 		if request.form['ru'] == w.ru:
 			return render_template('rueng/write.html',w=w ,alert='Правильно')
 		else:
 			return render_template('rueng/write.html',w=w ,alert='Неправильно')
-
-	return render_template('rueng/write.html',w=w)
+ 
+	return render_template('RuEngeng/write.html',w=w,err=False)

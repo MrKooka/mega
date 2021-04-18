@@ -42,21 +42,18 @@ class App:
 		self.app.register_blueprint(home,url_prefix='/')
 		self.app.register_blueprint(settings,url_prefix='/settings')
 		self.app.register_blueprint(dashroute,url_prefix='/DashExample')
-		print('register_blueprints is done')
 		Dash_app(self.app).get_dash_app()
 		Dash_app2(self.app).get_dash_app()
 
 		# DashApp1.Add_Dash(self.app)
 
 	def login_manager(self):
-		print('начала работать login_manager')
 		login_manager = LoginManager()
 		login_manager.init_app(self.app)
 		login_manager.login_viwe = 'login'
 		return login_manager
 
 	def migrate(self):
-		print('начала работать migrate')
 		migrate = Migrate(self.app,self.db)
 		manager = Manager(self.app)
 		manager.add_command('db',MigrateCommand)

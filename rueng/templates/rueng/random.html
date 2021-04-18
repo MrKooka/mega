@@ -1,14 +1,29 @@
 {%extends 'settings/base.html'%}
 
 {%block content%}
+
+{%if err%}
+<div class="container-fluid">
+  <div class="row text-center">
+    {%include 'rueng/nav.html'%}
+    <div class="col-10">
+      {
+        <h2><a  class="ml-5 text-secondary" href="{{ url_for('rueng.add') }}">Добавьте первое слово</a></h2>
+    </div>
+  </div>
+</div>
+{%endif%}
+
+{%if not err%}
+{% set allw = RuEng.query.filter(RuEng.users.any(id=user_id)).all() %}
 <div class="container-fluid">
   <div class="row text-center">
     {%include 'rueng/nav.html'%}
     <div class="col-6 mx-auto mt-4 ">
       <div class="mx-auto card text-dark bg-muted mt-5 " style="max-width: 30rem;">
-        <h3 class="card-header ">{{ w.eng }}</h3>
+        <h3 class="card-header ">{{ choice(allw).eng }}</h3>
         <div class="card-body">
-          <p>{{w.context}}</p>
+          <p>{{allw.context}}</p>
           <div class="accordion" id="accordionExample">
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingOne">
@@ -18,17 +33,17 @@
               </h2>
               <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  <h3>{{w.ru}}</h3>
+                  <h3>{{choice(allw).ru}}</h3>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <a class="btn btn-primary" href="{{ url_for('rueng.random') }}" role="button">Next</a>
+        <a class="btn btn-primary" href="{{ url_for('rueng.next_word',allw = allw) }}" role="button">Next</a>
       </div>
     </div>
   </div>
 </div>
-
+{%endif%}
 
 {%endblock%}

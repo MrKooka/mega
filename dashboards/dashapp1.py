@@ -55,7 +55,6 @@ class Dash_app:
         self.layout = layout
 
     def get_dash_app(self):
-        print('Вызов get_dash_app')
         app = dash.Dash(server=self.server, url_base_pathname=url_base,external_stylesheets=[dbc.themes.BOOTSTRAP])
         graph = Graph()
 

@@ -1,10 +1,32 @@
 {%extends 'settings/base.html'%}
 
 {%block content%}
+{%if err%}
+<div class="container-fluid">
+  <div class="row text-center">
+	{%include 'rueng/nav.html'%}
+    <div class="col-10">
+        <h2><a  class="ml-5 text-secondary" href="{{ url_for('rueng.add') }}">Добавьте первое слово</a></h2>
+    </div>
+  </div>
+</div>
+{%endif%}
+
+{%if not err%}
 <div class="container-fluid text-center">
 	<div class="row ">
 		{%include 'rueng/nav.html'%}
 		<div class="col-4 mx-auto mt-4 justify-content-start">
+			{%if alert == 'Неправильно'%}
+				<div class="alert alert-warning mt-3" role="alert">
+					{{alert}}
+				</div>
+
+			{%elif alert == 'Правильно' %}
+				<div class="alert alert-success mt-3" role="alert">
+					{{alert}}
+				</div>
+			{%endif%}
 			<div>
 				<h1>{{w.eng}}</h1>
 				<p>{{w.context}}</p>
@@ -26,20 +48,11 @@
 						<input class="form-control mt-3  mb-3" name='ru' type="text" placeholder="Русская версия">
 						<button type="submit" class="btn btn-primary">Проверить</button>
 					</form>
-				{%if alert == 'Неправильно'%}
-					<div class="alert alert-warning mt-3" role="alert">
-						{{alert}}
-					</div>
-
-				{%elif alert == 'Правильно' %}
-					<div class="alert alert-success mt-3" role="alert">
-						{{alert}}
-					</div>
-				{%endif%}
+				
 				<a class="btn btn-secondary mt-3" href="{{ url_for('rueng.write') }}" role="button">следующее слово</a>
 			</div>
 		</div>
 	</div>
 </div>
-
+{%endif%}
 {%endblock%}

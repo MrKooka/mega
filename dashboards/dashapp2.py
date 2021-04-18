@@ -54,6 +54,7 @@ class Dash_app2:
             Input('textarea-example', 'value')
         ) 
         def update_output(value):
+            print(value)
             return '{}'.format(value)
         apply_layout_with_auth(app, layout)
 

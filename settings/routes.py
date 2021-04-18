@@ -22,13 +22,10 @@ def signup():
 	form = RegisterForm_()
 
 	if form.validate_on_submit():
-		user = User.query.filter_by(email=form.email.data).first()
-		print(user)
+		user = User.query.filter(User.email == form.email.data).first()
 		if user:
-			print('Имаил уже занят ')
 			return render_template('settings/signup.html',form=form,current_user=current_user,alert = 'Такой Email уже занят')
-
-		print(form.email.data)
+   
 		hashed_pass = generate_password_hash(form.password.data,method='sha256')
 		new_user = User(email = form.email.data,
 						telegramid = str(form.telegramid.data),
@@ -36,9 +33,8 @@ def signup():
 						username = str(form.username.data)
 		)
 		db.session.add(new_user)
-		db.session.commit()
-
-		return redirect(url_for('home.index'))
+		db.session.commit() 
+		return redirect(url_for('settings.login'))
 		# except:
 			# print('что т оне так ')
 			# redirect(url_for('settings.signup'))
@@ -50,8 +46,9 @@ def login():
 	form = LoginForm()
 	# if form.validate_on_submit():
 	if request.method=="POST":
-		user = User.query.filter_by(email=form.email.data).first()
-		print(user)
+		user = User.query.filter(User.email == form.email.data).first()
+		print('Функция login',form.email.data)
+		print('функция login',user)
 		if user:
 			if check_password_hash(user.password, form.password.data):
 				login_user(user, remember=form.remember.data,force=True)
