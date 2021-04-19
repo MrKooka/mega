@@ -210,7 +210,6 @@ class Graph(Api):
 		if 'filename' in session.keys() and pattern:
 			filename = session['filename']
 			path_to_file = parent_dir+'/dashroutes/'+'pdumps/'+ filename
-			print(path_to_file)
 			with open(path_to_file,'rb') as f:
 	 			comments = pickle.load(f)
 
@@ -218,8 +217,8 @@ class Graph(Api):
 			text = ''
 			for i in comments:
 				text = text + i['textDisplay']
-
 			result  = re.findall('{}'.format(pattern),text) # list of words found by pattern
+			print(result)
 			calculated_result = Counter(result).most_common() #[(word_1,1),(word_2,3)] - a list of the occurrence of each word
 			df = pd.DataFrame(calculated_result)
 

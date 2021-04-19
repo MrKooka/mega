@@ -7,5 +7,4 @@ from pprint import pprint
 def index():
 	with open('text.txt','w') as f:
 		f.write('sdf')
-	pprint(current_user.id)
 	return render_template('home/index.html',current_user=current_user)

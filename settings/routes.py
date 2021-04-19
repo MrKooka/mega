@@ -49,6 +49,7 @@ def login():
 		user = User.query.filter(User.email == form.email.data).first()
 		print('Функция login',form.email.data)
 		print('функция login',user)
+		print(user)
 		if user:
 			if check_password_hash(user.password, form.password.data):
 				login_user(user, remember=form.remember.data,force=True)
