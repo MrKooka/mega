@@ -12,7 +12,7 @@ import pickle
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
-token = 'AIzaSyDl__LeDHysLbzRCOfT6S5ephdIzgFA8Iw'
+token = ''
 youtube = build('youtube','v3', developerKey=token)
 # class SaveComments:
 # 	def __get__(self,instance, owner):
